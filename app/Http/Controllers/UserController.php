@@ -47,4 +47,31 @@ class UserController extends Controller
             'message' => 'Registration successful'
         ], 200);
     }
+
+    public function login(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => ['required'],
+            'password' => ['required']
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $incomingFields = $validator->validated();
+        $credentials = ['email' => $incomingFields['email'], 'password' => $incomingFields['password']];
+
+        if (auth()->attempt($credentials)) {
+            return response()->json([
+                'message' => 'Login successful'
+            ], 200);
+        }
+    
+        return response()->json([
+            'message' => 'Login failed',
+            'errors' => $validator->errors()
+        ], 401);
+    }
 }
