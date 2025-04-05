@@ -50,9 +50,68 @@ class TSBMLevelController extends Controller
 
     function generateUniqueCode() {
         do {
-            $code = Str::upper(Str::random(6));
+            $code = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6);
         } while (TSBMLevelModel::where('level_code', $code)->exists());
 
         return $code;
     }
+
+    public function getRandomLevel() {
+        $level = TSBMLevelModel::inRandomOrder()->first();
+    
+        if ($level) {
+            $user = $level->user;
+            return response()->json([
+                'message' => 'Random level retrieved successfully.',
+                'level_name' => $level->level_name,
+                'level_data' => $level->level_data,
+                'level_code' => $level->level_code,
+                'user' => $user->name,
+                'created_at' => $level->created_at,
+            ], 200);
+        } 
+        else {
+            return response()->json([
+                'message' => 'No levels found.'
+            ], 404);
+        }
+    }
+
+    public function getLevelByCode($code) {
+        $level = TSBMLevelModel::where('level_code', $code)->first();
+    
+        if ($level) {
+            $user = $level->user;
+            return response()->json([
+                'message' => 'Random level retrieved successfully.',
+                'level_name' => $level->level_name,
+                'level_data' => $level->level_data,
+                'level_code' => $level->level_code,
+                'user' => $user->name,
+                'created_at' => $level->created_at,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Level not found.'
+            ], 404);
+        }
+    }
+
+    // public function getAllLevelsForPlayer() {
+    //     $userId = auth()->user()->id;
+    
+    //     $levels = TSBMLevelModel::where('user_id', $userId)->get();
+    
+
+    //     if ($levels->isEmpty()) {
+    //         return response()->json([
+    //             'message' => 'No levels found for this user.'
+    //         ], 404);
+    //     }
+    
+    //     return response()->json([
+    //         'message' => 'Levels retrieved successfully.',
+    //         'levels' => $levels
+    //     ], 200);
+    // }
 }

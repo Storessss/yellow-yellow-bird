@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('level_name', 50);
             $table->longText('level_data');
-            $table->char('level_code', 6);
+            $table->char('level_code', 6)->unique();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
