@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\TSBMGameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TSBMLevelController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/register-and-save', [TSBMGameController::class, 'registerAndSave']);
-Route::post('/login-and-save', [TSBMGameController::class, 'loginAndSave']);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/save-level', [TSBMLevelController::class, 'saveLevel']);

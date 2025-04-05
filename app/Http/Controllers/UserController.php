@@ -30,7 +30,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => 'Validation failed.',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -44,7 +44,7 @@ class UserController extends Controller
         Auth::login($user);
 
         return response()->json([
-            'message' => 'Registration successful'
+            'message' => 'Registration successful. Try logging in now.',
         ], 200);
     }
 
@@ -56,7 +56,7 @@ class UserController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => 'Validation failed.',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -64,14 +64,16 @@ class UserController extends Controller
         $credentials = ['email' => $incomingFields['email'], 'password' => $incomingFields['password']];
 
         if (auth()->attempt($credentials)) {
+            $user = auth()->user();
+            $token = $user->createToken('godot-token')->plainTextToken;
             return response()->json([
-                'message' => 'Login successful'
+                'message' => 'Login successful.',
+                'token' => $token
             ], 200);
         }
     
         return response()->json([
-            'message' => 'Login failed',
-            'errors' => $validator->errors()
+            'message' => 'Incorrect login.'
         ], 401);
     }
 }
