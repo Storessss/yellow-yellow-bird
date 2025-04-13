@@ -83,7 +83,7 @@ class TSBMLevelController extends Controller
         if ($level) {
             $user = $level->user;
             return response()->json([
-                'message' => 'Random level retrieved successfully.',
+                'message' => 'Level retrieved successfully by code.',
                 'level_name' => $level->level_name,
                 'level_data' => $level->level_data,
                 'level_code' => $level->level_code,
@@ -96,22 +96,4 @@ class TSBMLevelController extends Controller
             ], 404);
         }
     }
-
-    // public function getAllLevelsForPlayer() {
-    //     $userId = auth()->user()->id;
-    
-    //     $levels = TSBMLevelModel::where('user_id', $userId)->get();
-    
-
-    //     if ($levels->isEmpty()) {
-    //         return response()->json([
-    //             'message' => 'No levels found for this user.'
-    //         ], 404);
-    //     }
-    
-    //     return response()->json([
-    //         'message' => 'Levels retrieved successfully.',
-    //         'levels' => $levels
-    //     ], 200);
-    // }
 }

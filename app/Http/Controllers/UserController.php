@@ -76,4 +76,35 @@ class UserController extends Controller
             'message' => 'Incorrect login.'
         ], 401);
     }
+
+    public function deleteAccount(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => ['required'],
+            'password' => ['required']
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $incomingFields = $validator->validated();
+        $credentials = ['email' => $incomingFields['email'], 'password' => $incomingFields['password']];
+
+        if (auth()->attempt($credentials)) {
+            $user = auth()->user();
+    
+            $user->tokens()->delete();
+            $user->delete();
+    
+            return response()->json([
+                'message' => 'Account deleted successfully.'
+            ], 200);
+        }
+    
+        return response()->json([
+            'message' => 'Incorrect login.'
+        ], 401);
+    }
 }

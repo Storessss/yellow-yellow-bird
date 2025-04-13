@@ -11,5 +11,7 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/save-level', [TSBMLevelController::class, 'saveLevel']);
-Route::get('/get-random-level', [TSBMLevelController::class, 'getRandomLevel']);
+Route::post('/delete-account', [UserController::class, 'deleteAccount']);
+Route::middleware('auth:sanctum')->post('/save-tsbm-level', [TSBMLevelController::class, 'saveLevel']);
+Route::get('/get-random-tsbm-level', [TSBMLevelController::class, 'getRandomLevel']);
+Route::get('/get-tsbm-level-by-code', [TSBMLevelController::class, 'getLevelByCode']);
