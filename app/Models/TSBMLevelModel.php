@@ -11,10 +11,5 @@ class TSBMLevelModel extends Model
         'level_name',
         'level_data',
         'level_code',
-        'user_id',
     ];
-
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
 }

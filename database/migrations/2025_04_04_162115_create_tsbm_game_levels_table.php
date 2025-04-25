@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('tsbm_game_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('level_name', 50);
+            $table->string('level_name', 75);
             $table->longText('level_data');
             $table->char('level_code', 6)->unique();
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
